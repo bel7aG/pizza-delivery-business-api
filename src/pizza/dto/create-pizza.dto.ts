@@ -1,6 +1,6 @@
 import { ObjectType, Field, ID, Float } from 'type-graphql';
-import { CurrencyType } from '../../user/enum/currency-type.enum';
 import { IsIn } from 'class-validator';
+import { PizzaSize } from '../enum/pizza-size.enum';
 
 @ObjectType()
 export class CreatePizzaDto {
@@ -14,6 +14,14 @@ export class CreatePizzaDto {
   readonly description: string;
 
   @Field()
+  @IsIn([
+    PizzaSize.PERSONAL,
+    PizzaSize.SMALL,
+    PizzaSize.MEDIUM,
+    PizzaSize.LARGE,
+    PizzaSize.XLARGE,
+    PizzaSize.COLOSSAL,
+  ])
   readonly size: string;
 
   @Field(() => Float)

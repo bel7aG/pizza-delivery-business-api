@@ -33,7 +33,7 @@ export class PizzaService {
   }
 
   async findAll(currentUser: User): Promise<Pizza[]> {
-    let allPizzas = await this.pizzaModel.find().exec();
+    const allPizzas = await this.pizzaModel.find().exec();
 
     if (currentUser && currentUser.currency === CurrencyType.USD) {
       allPizzas.forEach(({ price }, index) => {
