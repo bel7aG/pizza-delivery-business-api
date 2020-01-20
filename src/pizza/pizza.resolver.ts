@@ -20,8 +20,11 @@ export class PizzaResolver {
 
   @UseGuards(GqlAuthGuard)
   @Query(() => [CreatePizzaDto])
-  async pizzas(@CurrentUser() currentUser: User) {
-    return this.pizzaService.findAll(currentUser);
+  async pizzas(
+    @Args('search') search: string,
+    @CurrentUser() currentUser: User,
+  ) {
+    return this.pizzaService.findAll(currentUser, search);
   }
 
   @UseGuards(GqlAuthGuard)

@@ -32,16 +32,24 @@ export class PizzaService {
     }
   }
 
-  async findAll(currentUser: User): Promise<Pizza[]> {
-    const allPizzas = await this.pizzaModel.find().exec();
+  async findAll(currentUser: User, search: string): Promise<Pizza[]> {
+    let pizzas = null;
+    if (search) {
+      // case sensitivity will be in the Front.
+      pizzas = await this.pizzaModel
+        .find({ name: { $regex: '.*' + search + '.*' } })
+        .exec();
+    } else {
+      pizzas = await this.pizzaModel.find().exec();
+    }
 
     if (currentUser && currentUser.currency === CurrencyType.USD) {
-      allPizzas.forEach(({ price }, index) => {
-        allPizzas[index].price = this.euroToUSD(price);
+      pizzas.forEach(({ price }, index) => {
+        pizzas[index].price = this.euroToUSD(price);
       });
     }
 
-    return allPizzas;
+    return pizzas;
   }
 
   async findOne(id: string, currentUser: User): Promise<Pizza> {

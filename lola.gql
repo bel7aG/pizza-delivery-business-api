@@ -60,7 +60,7 @@ input PizzaInput {
 
 type Query {
   manyPizza(id: String!): CreatePizzaDto!
-  pizzas: [CreatePizzaDto!]!
+  pizzas(search: String!): [CreatePizzaDto!]!
   pizza(id: String!): CreatePizzaDto!
   users: [SignInDto!]!
 }
