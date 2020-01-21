@@ -16,7 +16,7 @@ import { OrderModule } from './order/order.module';
       },
     ),
     GraphQLModule.forRoot({
-      autoSchemaFile: 'lola.gql',
+      autoSchemaFile: 'schemas.gql',
       context: ({ req }) => ({ req }),
     }),
     PizzaModule,

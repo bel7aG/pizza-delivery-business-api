@@ -1,4 +1,8 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { OrderInput } from './inputs/order.input';
@@ -6,6 +10,7 @@ import { Order } from './interfaces/order.interface';
 import { OrderDto } from './dto/order.dto';
 import { UserService } from './../user/user.service';
 import { User } from './../user/interfaces/user.interface';
+import { UserType } from './../user/enum/user-type.enum';
 
 @Injectable()
 export class OrderService {
@@ -16,6 +21,10 @@ export class OrderService {
 
   async orderPizza(input: OrderInput, currentUser: User) {
     let totalPrice = 0;
+
+    if (currentUser && currentUser.userType === UserType.BOSS) {
+      throw new UnauthorizedException(`${currentUser.name} you are the boss`);
+    }
 
     input.pizzas.forEach(({ pizza: { price }, quantity }) => {
       totalPrice += price * quantity;
