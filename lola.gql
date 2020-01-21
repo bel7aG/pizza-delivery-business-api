@@ -3,6 +3,12 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type AccessTokenDto {
+  type: String!
+  token: String!
+  exp: Float!
+}
+
 type CreatePizzaDto {
   id: ID
   name: String!
@@ -76,7 +82,7 @@ type SignInDto {
   password: String!
   salt: String!
   orders: [OrderDto!]!
-  accessToken: String!
+  accessToken: AccessTokenDto!
   userType: String!
   language: String
   currency: String!

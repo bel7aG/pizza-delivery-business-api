@@ -10,7 +10,7 @@ export interface User extends Document {
   phone: string;
   address: string;
   orders: Order[];
-  accessToken: string;
+  accessToken: any;
   userType: string;
   language?: string;
   currency: string;

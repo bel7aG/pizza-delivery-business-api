@@ -4,6 +4,7 @@ import { Order } from './../../order/interfaces/order.interface';
 import { OrderDto } from './../../order/dto/order.dto';
 import { IsIn } from 'class-validator';
 import { CurrencyType } from '../enum/currency-type.enum';
+import { AccessTokenDto } from './access-token.dto';
 
 @ObjectType()
 export class SignInDto {
@@ -37,7 +38,7 @@ export class SignInDto {
   @Field(() => [OrderDto])
   readonly orders: Order[];
 
-  @Field()
+  @Field(() => AccessTokenDto)
   readonly accessToken: string;
 
   @Field()

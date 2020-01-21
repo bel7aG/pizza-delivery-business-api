@@ -68,11 +68,11 @@ export class UserService {
       // to milliseconds
       const exp = JSON.parse(JSON.stringify(accessTokenDecoder)).exp * 1000;
 
-      userDetails.accessToken = JSON.stringify({
+      userDetails.accessToken = {
         type: 'bearer',
         token,
         exp,
-      });
+      };
 
       return userDetails;
     } else {
