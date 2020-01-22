@@ -9,7 +9,4 @@ import { PizzaInput } from '../../pizza/inputs/pizza.input';
 export class OrderPizzaInput {
   @Field(() => PizzaInput)
   readonly pizza: Pizza;
-
-  @Field(() => Int)
-  readonly quantity: number;
 }

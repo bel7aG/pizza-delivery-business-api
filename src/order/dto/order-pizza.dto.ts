@@ -8,7 +8,4 @@ import { CreatePizzaDto } from './../../pizza/dto/create-pizza.dto';
 export class OrderPizzaDto {
   @Field(() => CreatePizzaDto)
   readonly pizza: Pizza;
-
-  @Field(() => Int)
-  readonly quantity: number;
 }

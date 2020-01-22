@@ -5,6 +5,8 @@ import { SignInDto } from './../../user/dto/sign-in.dto';
 import { CreatePizzaDto } from './../../pizza/dto/create-pizza.dto';
 import { OrderPizzaDto } from './order-pizza.dto';
 import { UserDto } from './../../user/dto/user.dto';
+import { UserAddress } from './../../user/interfaces/user-address.interface';
+import { UserAddressDto } from './../../user/dto/user-address.dto';
 
 @ObjectType()
 export class OrderDto {
@@ -23,8 +25,8 @@ export class OrderDto {
   @Field({ nullable: true })
   readonly name: string;
 
-  @Field({ nullable: true })
-  readonly address: string;
+  @Field(() => UserAddressDto)
+  readonly address: UserAddress;
 
   @Field({ nullable: true })
   readonly totalPrice: number;

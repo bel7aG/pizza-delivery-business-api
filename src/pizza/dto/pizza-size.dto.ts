@@ -1,4 +1,4 @@
-import { ObjectType, Field, ID, Float } from 'type-graphql';
+import { ObjectType, Field, ID, Float, Int } from 'type-graphql';
 import { IsIn } from 'class-validator';
 import { PizzaSize } from '../enum/pizza-size.enum';
 
@@ -17,4 +17,7 @@ export class PizzaSizeDto {
     PizzaSize.COLOSSAL,
   ])
   readonly price: number;
+
+  @Field(() => Int!, { nullable: true })
+  readonly quantity: number;
 }

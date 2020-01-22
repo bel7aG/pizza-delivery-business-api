@@ -33,7 +33,7 @@ type OrderDto {
   user: UserDto
   phone: String
   name: String
-  address: String
+  address: UserAddressDto!
   totalPrice: Float
 }
 
@@ -46,12 +46,10 @@ input OrderInput {
 
 type OrderPizzaDto {
   pizza: CreatePizzaDto!
-  quantity: Int!
 }
 
 input OrderPizzaInput {
   pizza: PizzaInput!
-  quantity: Int!
 }
 
 input PizzaInput {
@@ -65,11 +63,13 @@ input PizzaInput {
 type PizzaSizeDto {
   size: String!
   price: Float!
+  quantity: Int
 }
 
 input PizzaSizeInput {
   size: String!
   price: Float!
+  quantity: Int
 }
 
 type Query {
@@ -123,10 +123,10 @@ input SignUpInput {
 }
 
 type UserAddressDto {
-  city: String!
-  addressLine: String!
-  region: String!
-  zipCode: Float!
+  city: String
+  addressLine: String
+  region: String
+  zipCode: Float
 }
 
 input UserAddressInput {

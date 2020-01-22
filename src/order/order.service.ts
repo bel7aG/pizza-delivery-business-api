@@ -2,6 +2,7 @@ import {
   Injectable,
   BadRequestException,
   UnauthorizedException,
+  NotFoundException,
 } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -26,8 +27,10 @@ export class OrderService {
       throw new UnauthorizedException(`${currentUser.name} you are the boss`);
     }
 
-    input.pizzas.forEach(({ pizza: { price }, quantity }) => {
-      totalPrice += price * quantity;
+    input.pizzas.forEach(({ pizza: { sizes = [] }, quantity }) => {
+      sizes.map(({ price, quantity }, index) => {
+        totalPrice += price * quantity;
+      });
     });
 
     const order = new this.orderModel({
@@ -44,5 +47,14 @@ export class OrderService {
     return saveOrder;
   }
 
-  async addOrderRefToUser(userId: string, orderId: string) {}
+  async findAll(currentUser: User): Promise<Order[]> {
+    try {
+      if (currentUser.userType === UserType.BOSS) {
+        const orders = await this.orderModel.find().exec();
+        return orders;
+      }
+    } catch {
+      throw new NotFoundException();
+    }
+  }
 }

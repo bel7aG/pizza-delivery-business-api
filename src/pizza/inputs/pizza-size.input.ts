@@ -1,4 +1,4 @@
-import { InputType, Field, Float } from 'type-graphql';
+import { InputType, Field, Float, Int } from 'type-graphql';
 import { IsIn } from 'class-validator';
 import { PizzaSize } from '../enum/pizza-size.enum';
 
@@ -13,8 +13,11 @@ export class PizzaSizeInput {
     PizzaSize.XLARGE,
     PizzaSize.COLOSSAL,
   ])
-  readonly size: string;
+  readonly size: PizzaSize;
 
   @Field(() => Float)
   readonly price: number;
+
+  @Field(() => Int, { nullable: true })
+  readonly quantity: number;
 }

@@ -5,7 +5,7 @@ export interface Pizza extends Document {
   id: string;
   name: string;
   description: string;
-  sizes: PizzaSizeType[];
+  sizes: Array<any>;
   price: string;
   ingredients: string[];
   pictures: string[];
