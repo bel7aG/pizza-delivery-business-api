@@ -24,6 +24,10 @@ export class UserService {
     return await this.userModel.find().exec();
   }
 
+  async findOne(id: string): Promise<User> {
+    return await this.userModel.findOne({ _id: id });
+  }
+
   async validateUser(payload: JwtPayload) {
     return await this.userModel.findOne({
       email: payload.email,
@@ -42,12 +46,12 @@ export class UserService {
     }
   }
 
-  async addPizzaOrderRef(currentUser: User, order: Order) {
-    currentUser.orders.push(order);
-
+  async addPizzaOrderRef(id: string, order: Order) {
+    const chosenUser = await this.findOne(id);
+    chosenUser.orders.push(order);
     const pickedUser = await this.userModel.findByIdAndUpdate(
-      currentUser.id,
-      currentUser,
+      chosenUser.id,
+      chosenUser,
     );
 
     return pickedUser;

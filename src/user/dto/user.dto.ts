@@ -4,30 +4,30 @@ import { UserAddressDto } from './user-address.dto';
 
 @ObjectType()
 export class UserDto {
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   readonly id?: string;
 
-  @Field()
+  @Field({ nullable: true })
   readonly name: string;
 
-  @Field()
+  @Field({ nullable: true })
   readonly surname: string;
 
-  @Field()
+  @Field({ nullable: true })
   readonly email: string;
 
-  @Field()
+  @Field({ nullable: true })
   readonly phone: string;
 
-  @Field(() => UserAddressDto)
+  @Field(() => UserAddressDto, { nullable: true })
   readonly address: UserAddress;
 
-  @Field()
+  @Field({ nullable: true })
   readonly userType: string;
 
   @Field({ nullable: true })
   readonly language: string;
 
-  @Field()
+  @Field({ nullable: true })
   readonly currency: string;
 }

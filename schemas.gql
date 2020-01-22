@@ -77,6 +77,7 @@ type Query {
   pizzas(search: String!): [CreatePizzaDto!]!
   pizza(id: String!): CreatePizzaDto!
   users: [SignInDto!]!
+  orders: [OrderDto!]!
 }
 
 type SignInDto {
@@ -137,13 +138,13 @@ input UserAddressInput {
 }
 
 type UserDto {
-  id: ID!
-  name: String!
-  surname: String!
-  email: String!
-  phone: String!
-  address: UserAddressDto!
-  userType: String!
+  id: ID
+  name: String
+  surname: String
+  email: String
+  phone: String
+  address: UserAddressDto
+  userType: String
   language: String
-  currency: String!
+  currency: String
 }

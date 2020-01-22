@@ -6,6 +6,7 @@ import { CurrentUser } from '../user/get-user.decorator';
 import { User } from './../user/interfaces/user.interface';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from './../user/gql-authentication-guard';
+import { OrderPizzaDto } from './dto/order-pizza.dto';
 
 @Resolver()
 export class OrderResolver {
@@ -18,5 +19,11 @@ export class OrderResolver {
     @CurrentUser() currentUser: User,
   ) {
     return await this.orderService.orderPizza(input, currentUser);
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Query(() => [OrderDto])
+  async orders(@CurrentUser() currentUser: User) {
+    return this.orderService.findAll(currentUser);
   }
 }

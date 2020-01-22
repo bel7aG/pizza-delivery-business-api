@@ -27,6 +27,8 @@ export class OrderService {
       throw new UnauthorizedException(`${currentUser.name} you are the boss`);
     }
 
+    const user = await this.userService.findOne(currentUser.id);
+
     input.pizzas.forEach(({ pizza: { sizes = [] }, quantity }) => {
       sizes.map(({ price, quantity }, index) => {
         totalPrice += price * quantity;
@@ -36,12 +38,14 @@ export class OrderService {
     const order = new this.orderModel({
       ...input,
       totalPrice,
-      user: currentUser,
+      user,
     });
     const saveOrder = await order.save();
 
+    console.log(saveOrder);
+
     if (currentUser) {
-      this.userService.addPizzaOrderRef(currentUser, saveOrder);
+      this.userService.addPizzaOrderRef(currentUser.id, saveOrder);
     }
 
     return saveOrder;
