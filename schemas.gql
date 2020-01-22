@@ -13,8 +13,7 @@ type CreatePizzaDto {
   id: ID
   name: String!
   description: String!
-  size: String!
-  price: Float!
+  sizes: [PizzaSizeDto!]!
   ingredients: [String!]!
   pictures: [String!]!
 }
@@ -58,10 +57,19 @@ input OrderPizzaInput {
 input PizzaInput {
   name: String!
   description: String!
-  size: String!
-  price: Float!
+  sizes: [PizzaSizeInput!]!
   ingredients: [String!]!
   pictures: [String!]!
+}
+
+type PizzaSizeDto {
+  size: String!
+  price: Float!
+}
+
+input PizzaSizeInput {
+  size: String!
+  price: Float!
 }
 
 type Query {
@@ -78,9 +86,7 @@ type SignInDto {
   email: String!
   username: String!
   phone: String!
-  address: String!
-  password: String!
-  salt: String!
+  address: UserAddressDto!
   orders: [OrderDto!]!
   accessToken: AccessTokenDto!
   userType: String!
@@ -100,7 +106,7 @@ type SignUpDto {
   email: String!
   username: String!
   phone: String!
-  address: String!
+  address: UserAddressDto!
   password: String!
   userType: String!
   currency: String!
@@ -112,11 +118,25 @@ input SignUpInput {
   email: String!
   username: String!
   phone: String!
-  address: String!
+  address: UserAddressInput!
   password: String!
   userType: String!
   currency: String!
   language: String
+}
+
+type UserAddressDto {
+  city: String!
+  addressLine: String!
+  region: String!
+  zipCode: Float!
+}
+
+input UserAddressInput {
+  city: String!
+  addressLine: String!
+  region: String!
+  zipCode: Float!
 }
 
 type UserDto {
@@ -125,7 +145,7 @@ type UserDto {
   surname: String!
   email: String!
   phone: String!
-  address: String!
+  address: UserAddressDto!
   userType: String!
   language: String
   currency: String!

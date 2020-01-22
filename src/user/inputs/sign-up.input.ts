@@ -8,6 +8,8 @@ import {
 } from 'class-validator';
 import { UserType } from '../enum/user-type.enum';
 import { CurrencyType } from '../enum/currency-type.enum';
+import { UserAddressInput } from './user-address.input';
+import { UserAddress } from '../interfaces/user-address.interface';
 
 @InputType()
 export class SignUpInput {
@@ -33,11 +35,8 @@ export class SignUpInput {
   @IsNumberString()
   readonly phone: string;
 
-  @Field()
-  @MinLength(12, {
-    message: 'Short address',
-  })
-  readonly address: string;
+  @Field(() => UserAddressInput)
+  readonly address: UserAddress;
 
   @Field()
   @MinLength(8, {

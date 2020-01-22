@@ -23,6 +23,7 @@ export class PizzaService {
     try {
       if (user.userType === UserType.BOSS) {
         const pizza = new this.pizzaModel(pizzaInput);
+        console.log(pizza);
         return await pizza.save();
       }
     } catch {

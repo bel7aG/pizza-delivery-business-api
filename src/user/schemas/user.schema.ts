@@ -6,13 +6,20 @@ const accessToken = new mongoose.Schema({
   exp: Number,
 });
 
+const addressSchema = new mongoose.Schema({
+  city: String,
+  addressLine: String,
+  region: String,
+  zipCode: Number,
+});
+
 export const UserSchema = new mongoose.Schema({
   username: { type: String, unique: true, required: true },
   email: { type: String, unique: true, required: true },
   name: String,
   surname: String,
   phone: String,
-  address: String,
+  address: addressSchema,
   password: String,
   salt: { type: String, required: false },
   orders: [],

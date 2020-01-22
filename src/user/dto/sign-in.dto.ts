@@ -5,6 +5,8 @@ import { OrderDto } from './../../order/dto/order.dto';
 import { IsIn } from 'class-validator';
 import { CurrencyType } from '../enum/currency-type.enum';
 import { AccessTokenDto } from './access-token.dto';
+import { UserAddressDto } from './user-address.dto';
+import { UserAddress } from './../interfaces/user-address.interface';
 
 @ObjectType()
 export class SignInDto {
@@ -26,14 +28,8 @@ export class SignInDto {
   @Field()
   readonly phone: string;
 
-  @Field()
-  readonly address: string;
-
-  @Field()
-  readonly password: string;
-
-  @Field()
-  readonly salt: string;
+  @Field(() => UserAddressDto)
+  readonly address: UserAddress;
 
   @Field(() => [OrderDto])
   readonly orders: Order[];

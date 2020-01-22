@@ -1,6 +1,8 @@
 import { ObjectType, Field, ID } from 'type-graphql';
 import { IsIn } from 'class-validator';
 import { CurrencyType } from '../enum/currency-type.enum';
+import { UserAddress } from './../interfaces/user-address.interface';
+import { UserAddressDto } from './user-address.dto';
 
 @ObjectType()
 export class SignUpDto {
@@ -22,8 +24,8 @@ export class SignUpDto {
   @Field()
   readonly phone: string;
 
-  @Field()
-  readonly address: string;
+  @Field(() => UserAddressDto)
+  readonly address: UserAddress;
 
   @Field()
   readonly password: string;
