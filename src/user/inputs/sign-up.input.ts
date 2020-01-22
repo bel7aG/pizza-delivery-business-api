@@ -28,10 +28,6 @@ export class SignUpInput {
 
   @Field()
   @IsNotEmpty()
-  readonly username: string;
-
-  @Field()
-  @IsNotEmpty()
   @IsNumberString()
   readonly phone: string;
 

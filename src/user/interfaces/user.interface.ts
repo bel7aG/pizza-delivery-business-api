@@ -4,7 +4,6 @@ import { UserAddress } from './user-address.interface';
 
 export interface User extends Document {
   id: string;
-  username: string;
   email: string;
   name: string;
   surname: string;

@@ -84,7 +84,6 @@ type SignInDto {
   name: String!
   surname: String!
   email: String!
-  username: String!
   phone: String!
   address: UserAddressDto!
   orders: [OrderDto!]!
@@ -104,7 +103,6 @@ type SignUpDto {
   name: String!
   surname: String!
   email: String!
-  username: String!
   phone: String!
   address: UserAddressDto!
   password: String!
@@ -116,7 +114,6 @@ input SignUpInput {
   name: String!
   surname: String!
   email: String!
-  username: String!
   phone: String!
   address: UserAddressInput!
   password: String!

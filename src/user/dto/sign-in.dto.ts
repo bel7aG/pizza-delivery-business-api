@@ -23,9 +23,6 @@ export class SignInDto {
   readonly email: string;
 
   @Field()
-  readonly username: string;
-
-  @Field()
   readonly phone: string;
 
   @Field(() => UserAddressDto)
