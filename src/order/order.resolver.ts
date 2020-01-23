@@ -28,6 +28,12 @@ export class OrderResolver {
   }
 
   @UseGuards(GqlAuthGuard)
+  @Query(() => OrderDto)
+  async order(@Args('id') id: string, @CurrentUser() user: User) {
+    return this.orderService.findOne(id, user);
+  }
+
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => OrderDto)
   async updateOrderStatus(
     @Args('id') id: string,

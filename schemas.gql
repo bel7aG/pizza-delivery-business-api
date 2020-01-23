@@ -76,6 +76,7 @@ type Query {
   pizza(id: String!): CreatePizzaDto!
   users: [SignInDto!]!
   orders: [OrderDto!]!
+  order(id: String!): OrderDto!
 }
 
 type SignInDto {

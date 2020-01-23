@@ -52,6 +52,28 @@ export class OrderService {
     }
   }
 
+  async findOne(id: string, user: User): Promise<Order> {
+    if (user) {
+      try {
+        const order = await this.orderModel
+          .findOne({ _id: id })
+          .populate('user');
+        if (user.userType === UserType.CUSTOMER) {
+          const specificUserOrders = user.id === (order.user && order.user.id);
+          if (specificUserOrders === false) {
+            throw new Error();
+          }
+        }
+
+        return order;
+      } catch {
+        throw new NotFoundException(`Order not found.`);
+      }
+    } else {
+      throw new UnauthorizedException(`You don't have the permission.`);
+    }
+  }
+
   async findAll(user: User): Promise<Order[]> {
     try {
       if (user) {
@@ -69,7 +91,7 @@ export class OrderService {
           return orders;
         }
       } else {
-        throw new NotFoundException();
+        throw new UnauthorizedException();
       }
     } catch {
       throw new NotFoundException();

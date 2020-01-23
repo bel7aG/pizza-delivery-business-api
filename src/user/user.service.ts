@@ -24,13 +24,6 @@ export class UserService {
     return await this.userModel.find().exec();
   }
 
-  async findOne(id: string): Promise<User> {
-    return await this.userModel
-      .findOne({ _id: id })
-      .populate('orders')
-      .exec();
-  }
-
   async validateUser(payload: JwtPayload) {
     return await this.userModel.findOne({
       email: payload.email,
