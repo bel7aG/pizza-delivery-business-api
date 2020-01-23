@@ -6,7 +6,7 @@ import { CurrentUser } from '../user/get-user.decorator';
 import { User } from './../user/interfaces/user.interface';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from './../user/gql-authentication-guard';
-import { OrderPizzaDto } from './dto/order-pizza.dto';
+import { Order } from './interfaces/order.interface';
 
 @Resolver()
 export class OrderResolver {
@@ -16,14 +16,33 @@ export class OrderResolver {
   @Mutation(() => OrderDto)
   async orderPizza(
     @Args('input') input: OrderInput,
-    @CurrentUser() currentUser: User,
+    @CurrentUser() user: User,
   ) {
-    return await this.orderService.orderPizza(input, currentUser);
+    return await this.orderService.orderPizza(input, user);
   }
 
   @UseGuards(GqlAuthGuard)
   @Query(() => [OrderDto])
-  async orders(@CurrentUser() currentUser: User) {
-    return this.orderService.findAll(currentUser);
+  async orders(@CurrentUser() user: User) {
+    return this.orderService.findAll(user);
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => OrderDto)
+  async updateOrderStatus(
+    @Args('id') id: string,
+    @Args('status') status: string,
+    @CurrentUser() user: User,
+  ): Promise<Order> {
+    return this.orderService.updateStatus(id, status, user);
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Mutation(() => OrderDto)
+  async deleteOrder(
+    @Args('id') id: string,
+    @CurrentUser() user: User,
+  ): Promise<Order> {
+    return this.orderService.deleteOrder(id, user);
   }
 }

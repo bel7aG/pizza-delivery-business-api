@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { UserType } from '../enum/user-type.enum';
 
 const accessToken = new mongoose.Schema({
   type: String,
@@ -6,7 +7,7 @@ const accessToken = new mongoose.Schema({
   exp: Number,
 });
 
-const addressSchema = new mongoose.Schema({
+export const addressSchema = new mongoose.Schema({
   city: String,
   addressLine: String,
   region: String,
@@ -14,16 +15,15 @@ const addressSchema = new mongoose.Schema({
 });
 
 export const UserSchema = new mongoose.Schema({
-  email: { type: String, unique: true, required: true },
+  email: { type: String, unique: true, required: true, dropDups: true },
   name: String,
   surname: String,
   phone: String,
   address: addressSchema,
   password: String,
   salt: { type: String, required: false },
-  orders: [],
   accessToken,
-  userType: String,
+  userType: { type: String, enum: [UserType.BOSS, UserType.CUSTOMER] },
   language: { type: String, required: false },
   currency: String,
 });

@@ -6,7 +6,7 @@ import { PizzaSizeType } from './../interfaces/pizza-size.interface';
 
 @ObjectType()
 export class CreatePizzaDto {
-  @Field(() => ID, { nullable: true })
+  @Field(() => ID)
   readonly id?: string;
 
   @Field()

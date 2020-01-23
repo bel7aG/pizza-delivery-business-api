@@ -3,19 +3,19 @@ import { MinLength, IsEmail, IsNumber, IsNotEmpty } from 'class-validator';
 
 @ObjectType()
 export class UserAddressDto {
-  @Field({ nullable: true })
+  @Field()
   @IsNotEmpty()
   readonly city: string;
 
-  @Field({ nullable: true })
+  @Field()
   @IsNotEmpty()
   readonly addressLine: string;
 
-  @Field({ nullable: true })
+  @Field()
   @IsNotEmpty()
   readonly region: string;
 
-  @Field({ nullable: true })
+  @Field()
   @IsNumber()
   readonly zipCode: number;
 }

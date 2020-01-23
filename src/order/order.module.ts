@@ -9,7 +9,7 @@ import { OrderResolver } from './order.resolver';
   imports: [
     MongooseModule.forFeature([
       {
-        name: 'order',
+        name: 'Order',
         schema: OrderSchema,
         collection: 'orders',
       },

@@ -42,16 +42,22 @@ export class PizzaResolver {
     return this.pizzaService.createPizza(input, user);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => CreatePizzaDto)
   async updatePizza(
     @Args('id') id: string,
     @Args('input') input: PizzaInput,
+    @CurrentUser() user: User,
   ): Promise<PizzaInput> {
-    return this.pizzaService.updatePizza(id, input);
+    return this.pizzaService.updatePizza(id, input, user);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => CreatePizzaDto)
-  async deletePizza(@Args('id') id: string): Promise<Pizza> {
-    return this.pizzaService.deletePizza(id);
+  async deletePizza(
+    @Args('id') id: string,
+    @CurrentUser() user: User,
+  ): Promise<Pizza> {
+    return this.pizzaService.deletePizza(id, user);
   }
 }

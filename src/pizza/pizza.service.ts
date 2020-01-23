@@ -23,7 +23,6 @@ export class PizzaService {
     try {
       if (user.userType === UserType.BOSS) {
         const pizza = new this.pizzaModel(pizzaInput);
-        console.log(pizza);
         return await pizza.save();
       }
     } catch {
@@ -65,26 +64,35 @@ export class PizzaService {
     }
   }
 
-  async deletePizza(id: string): Promise<Pizza> {
-    try {
-      const chosenPizza = await this.pizzaModel.findByIdAndRemove(id);
-      return chosenPizza;
-    } catch {
-      throw new NotFoundException(`Pizza not found.`);
-    }
-  }
-
   async updatePizza(
     id: string,
     pizza: CreatePizzaDto,
+    user: User,
   ): Promise<CreatePizzaDto> {
-    try {
-      const chosenPizza = await this.pizzaModel.findByIdAndUpdate(id, pizza, {
-        new: true,
-      });
-      return chosenPizza;
-    } catch {
-      throw new NotFoundException(`Pizza not found.`);
+    if (user && user.userType === UserType.BOSS) {
+      try {
+        const chosenPizza = await this.pizzaModel.findByIdAndUpdate(id, pizza, {
+          new: true,
+        });
+        return chosenPizza;
+      } catch {
+        throw new NotFoundException(`Pizza not found.`);
+      }
+    } else {
+      throw new UnauthorizedException(`You don't have the permission.`);
+    }
+  }
+
+  async deletePizza(id: string, user: User): Promise<Pizza> {
+    if (user && user.userType === UserType.BOSS) {
+      try {
+        const chosenPizza = await this.pizzaModel.findByIdAndRemove(id);
+        return chosenPizza;
+      } catch {
+        throw new NotFoundException(`Pizza not found.`);
+      }
+    } else {
+      throw new UnauthorizedException(`You don't have the permission.`);
     }
   }
 

@@ -3,6 +3,7 @@ import {
   BadRequestException,
   UnauthorizedException,
   NotFoundException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -16,49 +17,101 @@ import { UserType } from './../user/enum/user-type.enum';
 @Injectable()
 export class OrderService {
   constructor(
-    @InjectModel('order') private readonly orderModel: Model<Order>,
+    @InjectModel('Order') private readonly orderModel: Model<Order>,
     private userService: UserService,
   ) {}
 
-  async orderPizza(input: OrderInput, currentUser: User) {
+  async orderPizza(input: OrderInput, user: User) {
     let totalPrice = 0;
 
-    if (currentUser && currentUser.userType === UserType.BOSS) {
-      throw new UnauthorizedException(`${currentUser.name} you are the boss`);
+    if (user && user.userType === UserType.BOSS) {
+      throw new UnauthorizedException(`${user.name} you are the boss`);
     }
 
-    const user = await this.userService.findOne(currentUser.id);
+    const { name, address, phone } = input;
 
-    input.pizzas.forEach(({ pizza: { sizes = [] }, quantity }) => {
-      sizes.map(({ price, quantity }, index) => {
-        totalPrice += price * quantity;
+    const eligibleOrder = (name && address && phone) || user;
+    if (eligibleOrder) {
+      input.pizzas.forEach(({ sizes = [] }) => {
+        sizes.map(({ price, quantity }) => {
+          totalPrice += price * quantity;
+        });
       });
-    });
 
-    const order = new this.orderModel({
-      ...input,
-      totalPrice,
-      user,
-    });
-    const saveOrder = await order.save();
+      const order = new this.orderModel({
+        ...input,
+        totalPrice,
+        user,
+      });
 
-    console.log(saveOrder);
+      const saveOrder = await order.save();
 
-    if (currentUser) {
-      this.userService.addPizzaOrderRef(currentUser.id, saveOrder);
+      return saveOrder;
+    } else {
+      throw new ForbiddenException(`missing data.`);
     }
-
-    return saveOrder;
   }
 
-  async findAll(currentUser: User): Promise<Order[]> {
+  async findAll(user: User): Promise<Order[]> {
     try {
-      if (currentUser.userType === UserType.BOSS) {
-        const orders = await this.orderModel.find().exec();
-        return orders;
+      if (user) {
+        if (user.userType === UserType.BOSS) {
+          const orders = await this.orderModel
+            .find()
+            .populate('user')
+            .exec();
+          return orders;
+        } else {
+          const orders = await this.orderModel
+            .find({ user })
+            .populate('user')
+            .exec();
+          return orders;
+        }
+      } else {
+        throw new NotFoundException();
       }
     } catch {
       throw new NotFoundException();
+    }
+  }
+
+  async updateStatus(id: string, status: string, user: User): Promise<Order> {
+    if (user && user.userType === UserType.BOSS) {
+      try {
+        const chosenOrder = await this.orderModel
+          .findByIdAndUpdate(
+            id,
+            {
+              $set: {
+                status,
+              },
+            },
+            {
+              new: true,
+            },
+          )
+          .populate('user');
+
+        return chosenOrder;
+      } catch {
+        throw new NotFoundException(`Order not found.`);
+      }
+    } else {
+      throw new UnauthorizedException(`You don't have the permission.`);
+    }
+  }
+
+  async deleteOrder(id: string, user: User): Promise<Order> {
+    if (user && user.userType === UserType.BOSS) {
+      try {
+        const chosenOrder = await this.orderModel.findByIdAndRemove(id);
+        return chosenOrder;
+      } catch {
+        throw new NotFoundException(`Order not found.`);
+      }
+    } else {
+      throw new UnauthorizedException(`You don't have the permission.`);
     }
   }
 }

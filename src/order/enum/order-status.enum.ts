@@ -1,0 +1,7 @@
+export enum OrderStatus {
+  IN_REVIEW = 'IN_REVIEW',
+  IN_PROGRESS = 'IN_PROGRESS',
+  DONE = 'DONE',
+  REJECTED = 'REJECTED',
+  CANCELED = 'CANCELED',
+}

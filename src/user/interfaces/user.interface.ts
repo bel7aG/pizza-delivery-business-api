@@ -9,7 +9,6 @@ export interface User extends Document {
   surname: string;
   phone: string;
   address: UserAddress;
-  orders: Order[];
   accessToken: any;
   userType: string;
   language?: string;

@@ -1,4 +1,4 @@
-import { InputType, Field, ID } from 'type-graphql';
+import { InputType, Field, ID, Int } from 'type-graphql';
 import { MinLength, IsEmail, IsNumber, IsNotEmpty } from 'class-validator';
 
 @InputType()
@@ -15,7 +15,7 @@ export class UserAddressInput {
   @IsNotEmpty()
   readonly region: string;
 
-  @Field()
+  @Field(() => Int)
   @IsNumber()
   readonly zipCode: number;
 }

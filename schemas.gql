@@ -10,7 +10,7 @@ type AccessTokenDto {
 }
 
 type CreatePizzaDto {
-  id: ID
+  id: ID!
   name: String!
   description: String!
   sizes: [PizzaSizeDto!]!
@@ -25,31 +25,29 @@ type Mutation {
   signUp(input: SignUpInput!): SignUpDto!
   signIn(input: SignInInput!): SignInDto!
   orderPizza(input: OrderInput!): OrderDto!
+  updateOrderStatus(status: String!, id: String!): OrderDto!
+  deleteOrder(id: String!): OrderDto!
 }
 
 type OrderDto {
-  id: ID!
-  pizzas: [OrderPizzaDto!]!
+  id: ID
+  ticket: String!
+  pizzas: [CreatePizzaDto!]!
   user: UserDto
   phone: String
   name: String
-  address: UserAddressDto!
+  address: UserAddressDto
   totalPrice: Float
+  status: String!
+  created: String!
 }
 
 input OrderInput {
-  pizzas: [OrderPizzaInput!]!
+  pizzas: [PizzaInput!]!
   phone: String
   name: String
-  address: String
-}
-
-type OrderPizzaDto {
-  pizza: CreatePizzaDto!
-}
-
-input OrderPizzaInput {
-  pizza: PizzaInput!
+  address: UserAddressInput
+  status: String!
 }
 
 input PizzaInput {
@@ -87,7 +85,6 @@ type SignInDto {
   email: String!
   phone: String!
   address: UserAddressDto!
-  orders: [OrderDto!]!
   accessToken: AccessTokenDto!
   userType: String!
   language: String
@@ -124,17 +121,17 @@ input SignUpInput {
 }
 
 type UserAddressDto {
-  city: String
-  addressLine: String
-  region: String
-  zipCode: Float
+  city: String!
+  addressLine: String!
+  region: String!
+  zipCode: Float!
 }
 
 input UserAddressInput {
   city: String!
   addressLine: String!
   region: String!
-  zipCode: Float!
+  zipCode: Int!
 }
 
 type UserDto {

@@ -16,7 +16,7 @@ import { Order } from './../order/interfaces/order.interface';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel('user') private readonly userModel: Model<User>,
+    @InjectModel('User') private readonly userModel: Model<User>,
     private jwtService: JwtService,
   ) {}
 
@@ -25,7 +25,10 @@ export class UserService {
   }
 
   async findOne(id: string): Promise<User> {
-    return await this.userModel.findOne({ _id: id });
+    return await this.userModel
+      .findOne({ _id: id })
+      .populate('orders')
+      .exec();
   }
 
   async validateUser(payload: JwtPayload) {
@@ -44,17 +47,6 @@ export class UserService {
     } catch {
       throw new ConflictException('some data already exist');
     }
-  }
-
-  async addPizzaOrderRef(id: string, order: Order) {
-    const chosenUser = await this.findOne(id);
-    chosenUser.orders.push(order);
-    const pickedUser = await this.userModel.findByIdAndUpdate(
-      chosenUser.id,
-      chosenUser,
-    );
-
-    return pickedUser;
   }
 
   async signIn(signInInput: SignInInput): Promise<any> {

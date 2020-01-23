@@ -1,6 +1,7 @@
 import { Document } from 'mongoose';
 import { User } from './../../user/interfaces/user.interface';
 import { Pizza } from './../../pizza/interfaces/pizza.interface';
+import { UserAddress } from './../../user/interfaces/user-address.interface';
 
 export interface Order extends Document {
   pizzas: Pizza[];
@@ -11,7 +12,11 @@ export interface Order extends Document {
 
   name: string;
 
-  address: string;
+  address: UserAddress;
 
   totalPrice: number;
+
+  status: string;
+
+  created: string;
 }

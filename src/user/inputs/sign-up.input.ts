@@ -32,7 +32,7 @@ export class SignUpInput {
   readonly phone: string;
 
   @Field(() => UserAddressInput)
-  readonly address: UserAddress;
+  readonly address: any;
 
   @Field()
   @MinLength(8, {
