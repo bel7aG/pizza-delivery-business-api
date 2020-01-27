@@ -37,6 +37,7 @@ type OrderDto {
   phone: String
   name: String
   address: UserAddressDto
+  currency: String!
   totalPrice: Float
   status: String!
   created: String!
@@ -47,6 +48,7 @@ input OrderInput {
   phone: String
   name: String
   address: UserAddressInput
+  currency: String!
   status: String!
 }
 
@@ -59,6 +61,7 @@ input PizzaInput {
 }
 
 type PizzaSizeDto {
+  id: ID!
   size: String!
   price: Float!
   quantity: Int

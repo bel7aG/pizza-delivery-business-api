@@ -38,7 +38,7 @@ export class UserService {
 
       return await user.save();
     } catch {
-      throw new ConflictException('some data already exist');
+      throw new ConflictException(`Email already registered`);
     }
   }
 

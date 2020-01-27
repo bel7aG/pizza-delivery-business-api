@@ -4,6 +4,9 @@ import { PizzaSize } from '../enum/pizza-size.enum';
 
 @ObjectType()
 export class PizzaSizeDto {
+  @Field(() => ID)
+  readonly id?: string;
+
   @Field()
   readonly size: string;
 

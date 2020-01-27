@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
-import { UserSchema, addressSchema } from './../../user/schemas/user.schema';
+import { addressSchema } from './../../user/schemas/user.schema';
 import { OrderStatus } from '../enum/order-status.enum';
+import { CurrencyType } from '../../user/enum/currency-type.enum';
 
 export const OrderSchema = new mongoose.Schema({
   pizzas: [],
@@ -19,5 +20,6 @@ export const OrderSchema = new mongoose.Schema({
       OrderStatus.CANCELED,
     ],
   },
+  currency: { type: String, enum: [CurrencyType.EUR, CurrencyType.USD] },
   created: { type: Date, default: Date.now },
 });

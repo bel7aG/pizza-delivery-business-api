@@ -18,5 +18,7 @@ export interface Order extends Document {
 
   status: string;
 
+  currency: string;
+
   created: string;
 }

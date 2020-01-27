@@ -19,6 +19,9 @@ export class OrderInput {
   @Field(() => UserAddressInput, { nullable: true })
   readonly address?: UserAddress;
 
+  @Field(() => String)
+  readonly currency: string;
+
   @Field()
   @IsIn([OrderStatus.IN_REVIEW, OrderStatus.IN_PROGRESS, OrderStatus.DONE])
   readonly status: string;

@@ -28,6 +28,9 @@ export class OrderDto {
   @Field(() => UserAddressDto, { nullable: true })
   readonly address: UserAddress;
 
+  @Field(() => String)
+  readonly currency: string;
+
   @Field({ nullable: true })
   readonly totalPrice: number;
 
