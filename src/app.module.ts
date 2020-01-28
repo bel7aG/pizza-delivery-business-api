@@ -18,6 +18,13 @@ import { OrderModule } from './order/order.module';
     GraphQLModule.forRoot({
       autoSchemaFile: 'schemas.gql',
       context: ({ req }) => ({ req }),
+      cors: {
+        origin: '*',
+        preflightContinue: true,
+        optionsSuccessStatus: 204,
+        credentials: true,
+      },
+      path: '/',
     }),
     PizzaModule,
     OrderModule,
