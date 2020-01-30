@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -33,23 +34,22 @@ export class PizzaService {
   }
 
   async findAll(currentUser: User, search: string): Promise<Pizza[]> {
-    let pizzas = null;
-    if (search) {
-      // case sensitivity will be in the Front.
-      pizzas = await this.pizzaModel
-        .find({ name: { $regex: '.*' + search + '.*' } })
-        .exec();
-    } else {
-      pizzas = await this.pizzaModel.find().exec();
+    try {
+      let pizzas = null;
+      if (search) {
+        // case sensitivity will be in the Front.
+        pizzas = await this.pizzaModel
+          .find({
+            name: { $regex: '.*' + search + '.*' },
+          })
+          .exec();
+      } else {
+        pizzas = await this.pizzaModel.find().exec();
+      }
+      return pizzas;
+    } catch {
+      throw new InternalServerErrorException();
     }
-
-    if (currentUser && currentUser.currency === CurrencyType.USD) {
-      pizzas.forEach(({ price }, index) => {
-        pizzas[index].price = this.euroToUSD(price);
-      });
-    }
-
-    return pizzas;
   }
 
   async findOne(id: string, currentUser: User): Promise<Pizza> {
